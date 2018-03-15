@@ -1,0 +1,138 @@
+﻿@{
+    Layout = null;
+    }
+
+<style type="text/css">
+    .form-box input.settingswidth, .form-box textarea.settingswidth { width:402px; *width:400px; _width:400px; }
+</style>
+<link href="~/Scripts/uploadify/uploadify.css" rel="stylesheet" />
+<script src="~/Scripts/uploadify/jquery.uploadify-3.1.js"></script>
+<script>
+
+    function gltdUpload() {
+        var product_upload = KindEditor.editor({
+            uploadJson: "/UploadImg/Upload?dir=aboutus-img"
+        });
+        product_upload.loadPlugin("image", function () {
+            product_upload.plugin.imageDialog({
+                showRemote: false,
+                clickFn: function (url, title, width, height, border, align) {
+                    $("#gltd-img").attr("value", url.split('/')[url.split('/').length - 1]);
+                    $.Message("上传成功"); product_upload.hideDialog();
+                }
+            });
+        });
+    }
+
+    function gltdImg() {
+        var group = $("#productid").val();
+        var width, height, img = $("#gltd-img").val();
+        if (img == "null.jpg" || img == "") { width = 480, height = 320; }
+        $("<div />").dialog({
+            title: "查看图片", width: 980, height: 620, modal: true, cache: false,
+            content: "<img style='display:block;' src='../userfiles/gltd-img/" + img + "' />",
+            onClose: function () { $(this).dialog("destroy"); }
+        });
+    }
+</script>
+<div class="form-box" align="center">
+    <form id="settings-model" method="post">
+        <table class="model-table">
+            <tr>
+                <th>系统名称</th>
+                <td><input name="SystemName" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "SystemName"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>网站标题</th>
+                <td><input name="SiteName" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "SiteName"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>搜索优化</th>
+                <td><input name="Keywords" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Keywords"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>站点描述</th>
+                <td><input name="Description" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Description"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>客服电话</th>
+                <td><input name="Phone" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Phone"+"'")[0]["Content"]" /></td>
+            </tr>
+
+            <tr>
+                <th>邮箱</th>
+                <td><input name="Email" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Email"+"'")[0]["Content"]" /></td>
+            </tr>
+
+            <tr>
+                <th>地址</th>
+                <td><input name="Address" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Address"+"'")[0]["Content"]" /></td>
+            </tr>
+                        <tr>
+                <th>手机</th>
+                <td><input name="Mobile" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Mobile"+"'")[0]["Content"]" /></td>
+            </tr>
+            
+
+                        <tr>
+                <th>联系人</th>
+                <td><input name="Person" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Person"+"'")[0]["Content"]" /></td>
+            </tr>
+
+                        <tr>
+                <th>传真</th>
+                <td><input name="Deliver" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "Deliver"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>QQ</th>
+                <td><input name="QQ" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "QQ"+"'")[0]["Content"]" /></td>
+            </tr>
+            <tr>
+                <th>客服QQ</th>
+                <td><input name="KFQQ" class="easyui-validatebox settingswidth" data-options="required:true" value="@ViewBag.dt.Select("Mark='" + "KFQQ"+"'")[0]["Content"]" /></td>
+            </tr>
+                        <tr>
+                <th>公司资质</th>
+                <td>            <input id="PwdPicture" type="file"  /><input type="hidden" name="Zizi" id="pwdp" />  </td>
+            </tr>
+        </table>
+        <div style="width:465px; padding:7px 0px 0px 0px;"><textarea id="settings-copyright" name="Copyright">@ViewBag.dt.Select("Mark='" + "Copyright"+"'")[0]["Content"]</textarea></div>
+    </form>
+</div>
+<script type="text/javascript">function upload(id) {
+    $(id).uploadify({
+        //指定swf文件
+        'swf': '/Scripts/uploadify/uploadify.swf',
+        //后台处理的页面
+        'uploader': '/UploadImg/UploadZZ?dir=zizi',
+        //按钮显示的文字
+        'buttonText': '上传图片',
+        //显示的高度和宽度，默认 height 30；width 120
+        //'height': 15,
+        //'width': 80,
+        //上传文件的类型  默认为所有文件    'All Files'  ;  '*.*'
+        //在浏览窗口底部的文件类型下拉菜单中显示的文本
+        'fileTypeDesc': 'Image Files',
+        //允许上传的文件后缀
+        'fileTypeExts': '*.gif; *.jpg; *.png',
+        //发送给后台的其他参数通过formData指定
+        //'formData': { 'someKey': 'someValue', 'someOtherKey': 1 },
+        //上传文件页面中，你想要用来作为文件队列的元素的id, 默认为false  自动生成,  不带#
+        //'queueID': 'fileQueue',
+        //选择文件后自动上传
+        'auto': true,
+        //设置为true将允许多文件上传
+        'multi': true,
+
+        'onUploadSuccess': function (file, data, response) {
+                $("#pwdp").val($("#pwdp").val()+','+JSON.parse(data).url);
+            $('#' + file.id).find('.data').html(' 上传完毕');
+        }
+    });
+}
+    $(function () {
+        upload('#PwdPicture');
+    });
+
+
+</script>

@@ -1,0 +1,40 @@
+﻿@model PD.Model.Msg
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="form-box" align="center">
+    <form id="msg-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>姓名:&nbsp;</span>
+                    <th name="Desc" class="easyui-validatebox">@Model.Name</th></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>公司:&nbsp;</span>
+                    <th name="Sort" class="easyui-validatebox">@Model.Company</th></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>手机:&nbsp;</span>
+                    <th  class="easyui-validatebox">@Model.Phone</th></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Email:&nbsp;</span>
+                    <th  class="easyui-validatebox">@Model.Email</th></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>内容:&nbsp;</span>
+                    <th  class="easyui-validatebox"><p>@Model.Content</p></th></td>
+            </tr>
+        </table>
+    </form>
+</div>
+

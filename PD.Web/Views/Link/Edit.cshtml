@@ -1,0 +1,28 @@
+﻿@model PD.Model.Link
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="form-box" align="center">
+    <form id="link-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>名称:&nbsp;</span>
+                    <input name="Name" class="easyui-validatebox" data-options="required:true" value="@Model.Name" style="width: 350px"  /></td>
+            </tr> 
+
+                        <tr>
+                <td>
+                    <span>地址:&nbsp;</span>
+                    <input name="Href" class="easyui-validatebox" data-options="" value="@Model.Href" style="width: 350px"  /></td>
+            </tr> 
+
+        </table>
+        <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+    </form>
+</div>
+

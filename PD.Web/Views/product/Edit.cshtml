@@ -1,0 +1,63 @@
+﻿@model PD.Model.Product
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+    var cate = new PD.Access.Server("Category", "ID").GetObjects<PD.Model.Category>("");
+}
+
+<div class="form-box" align="center">
+    <form id="product-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>名称:&nbsp;</span>
+                    <input name="Name" class="easyui-validatebox" data-options="required:true" value="@Model.Name" style="width: 350px" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>编号:&nbsp;</span>
+                    <input name="Code" class="easyui-validatebox" data-options="required:true" value="@Model.Code" style="width: 350px" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>型号:&nbsp;</span>
+                    <input name="Size" class="easyui-validatebox" data-options="required:true" value="@Model.Size" style="width: 350px" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>特色:&nbsp;</span>
+                    <input name="Size" class="easyui-validatebox" data-options="required:true" value="@Model.Desc" style="width: 350px" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>分类:&nbsp;</span>
+                    <select name="CategoryId" style="width: 350px">
+                        <option></option>
+                        @foreach (var c in cate)
+                        {
+                            <option @(c.ID == Model.CategoryId ? "selected=selected" : "")>@c.Name</option>}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+
+                    <span>上传图片</span>
+                    <a class="easyui-linkbutton" href="javascript:void(0)" onclick="ProductImg()" data-options="plain:true,iconCls:'icon-search'">查看</a>
+                    <input id="product-img" name="Img" type="hidden" value="@Model.Img" />
+                    <a class="easyui-linkbutton" href="javascript:void(0)" onclick="ProductUpload()" data-options="plain:true,iconCls:'icon-add'">上传</a>
+                    @*<span >图片上传后会自动裁剪为合适的尺寸。</span>*@
+
+                </td>
+            </tr>
+        </table>
+        <div style="width:500px; padding:7px 0px 0px 0px;"><textarea id="product-content" name="Content">@Model.Content</textarea></div>
+        <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+    </form>
+</div>

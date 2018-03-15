@@ -1,0 +1,114 @@
+﻿@model PD.Model.Download
+@{
+    ViewBag.Title = "资料详细--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+    var info = new PD.Util.PDService("Info", "ID").GetObjects<PD.Model.Info>("");
+    Layout = "~/Views/Shared/Front.cshtml";
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 25px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 20px;
+            line-height: 40px;
+            width: 155px;
+            height: 137px;
+            background-color: #4cff00;
+        }
+
+    .litem {
+        display: block;
+        height: 32px;
+        width: 100%;
+        color: white;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        line-height: 32px;
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/lItem_03.jpg') repeat-x;
+    }
+
+    .litem_s {
+        display: block;
+        height: 35px;
+        width: 100%;
+        color: #005FAF;
+        line-height: 35px;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/litem_select_05.jpg') repeat-x;
+    }
+
+    #contact label, .pinfo li label, .file {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+
+    .file {
+        margin: 10px 15px;
+    }
+
+    .dlink {
+        color: #000;
+        text-decoration: underline;
+    }
+        .dlink:hover {
+        color:red;
+        }
+    .area {
+        width: 620px;
+        height: 40px;
+        line-height: 40px;
+        background-color: #CCC;
+        text-align: center;
+    }
+
+        .area label {
+            font-size: 14px;
+        }
+</style>
+
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+    <a class="litem">技术支持</a>
+    <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Support?ID=@info.Where(s => s.Mark == "SHFW").FirstOrDefault().ID">售后服务</a>
+    <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Support?ID=@info.Where(s => s.Mark == "JJWT").FirstOrDefault().ID">解决问题</a>
+    <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Download/List">资料下载</a>
+
+</div>
+
+<div class="box" style="width: 804px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><a href="javascript:void(0)">技术支持></a><span href="">资料下载</span></label>
+    </div>
+    <div style="margin: 10px;">
+        <center>
+            <h2 style="margin: 10px;">@Model.Name</h2>
+        </center>
+        <div class="area" style="">
+            <label>时间:<span>@DateTime.Parse(Model.InsertTime.ToString()).ToString("yyyy.MM.dd")</span></label>&nbsp;&nbsp;&nbsp;&nbsp;
+                <label>下载次数：<span>@Model.Times</span></label>
+        </div>
+
+    </div>
+    <div style="padding: 5px 10px; min-height: 200px;">
+        @Html.Raw(Model.Desc)
+    </div>
+    <span class="file">点击此处下载：<a class="dlink" href="/userfiles/file/@Model.File">@Model.Name</a></span>
+    @*    <div style="padding: 20px;min-height:200px;">
+        <p>
+            @Html.Raw(Model.Desc)
+        </p>
+    </div>
+    <span class="file">点击此处下载：<a class="dlink" href="/userfiles/file/@Model.File">@Model.Name</a></span>*@
+</div>
+
+

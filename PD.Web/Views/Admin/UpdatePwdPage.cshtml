@@ -1,0 +1,26 @@
+﻿@model PD.Model.User
+@{Layout = null;}
+<div class="form-box" align="center">
+    <form id="updatepwd-box" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>旧密码</span><br />
+                    <input name="oldPwd" class="easyui-validatebox" type="password" data-options="required:true" style="width: 200px"  /></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>新密码</span><br />
+                    <input id="new0pwd" class="easyui-validatebox" type="password"  name="newPwd" data-options="required:true" style="width: 200px" /></td>
+            </tr>
+                        <tr>
+                <td>
+                    <span>确认新密码</span><br />
+                    <input id="new0pwd2" class="easyui-validatebox" type="password"  name="newPwd2" data-options="required:true" style="width: 200px" /></td>
+            </tr>
+        </table>
+        <input name="id" type="hidden" value="@Model.ID" />
+    </form>
+</div>
+

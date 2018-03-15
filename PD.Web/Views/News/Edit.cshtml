@@ -1,0 +1,34 @@
+﻿@model PD.Model.News
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="form-box" align="center">
+    <form id="news-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>标题:&nbsp;</span>
+                    <input name="Name" class="easyui-validatebox" data-options="required:true" value="@Model.Name" style="width: 350px"  /></td>
+            </tr>
+            <tr>
+                <td>
+                    <span>类型:&nbsp;</span>
+                    <select class="easyui-combobox" style="width:200px;" name="Type">
+                        <option  @(Model.Type==1?"selected=\"selected\"":"") value="1">公司新闻</option>
+                        <option  @(Model.Type==2?"selected=\"selected\"":"") value="2">行业新闻</option>
+
+                    </select>
+            </tr>
+
+
+        </table>
+        <div style="width: 500px; padding: 7px 0px 0px 0px;">
+            <textarea id="news-content" name="Content">@Model.Content</textarea></div>
+        <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+    </form>
+</div>
+

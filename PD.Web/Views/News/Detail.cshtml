@@ -1,0 +1,59 @@
+﻿@model PD.Model.News
+@{
+    ViewBag.Title = "新闻详细--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+
+    Layout = "~/Views/Shared/Front.cshtml";
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 25px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 20px;
+            line-height: 40px;
+            width: 155px;
+            height: 137px;
+            background-color: #4cff00;
+        }
+    .area {
+    width: 620px; height: 40px; line-height: 40px; background-color: #CCC
+    }
+        .area label {
+        font-size:14px;}
+</style>
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+    <a class="litem" href="/News/List?Type=1">新闻中心</a>
+    <a class="litem_s" href="/News/List?Type=1">公司新闻</a>
+    <a class="litem_s" href="/News/List?Type=2" style="background-image: url('/Images/litem_no_06.jpg')">行业新闻</a>
+
+</div>
+
+<div class="box" style="width: 804px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><a href="/News/List">新闻中心></a><span>新闻内容</span></label>
+
+    </div>
+    <div style="margin: 10px;">
+        <center>
+            <h2 style="margin: 10px;">@Model.Name</h2>
+        </center>
+        <center>
+            <div class="area" style="">
+                <label>发布者:<span>@(ViewBag.user==null?"":ViewBag.user.Name)</span></label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>时间:<span>@DateTime.Parse(Model.InsertTime.ToString()).ToString("yyyy.MM.dd")</span></label>
+            </div>
+        </center>
+
+    </div>
+    <div style="padding: 5px 10px;">
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+
+

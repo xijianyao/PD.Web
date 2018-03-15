@@ -1,0 +1,111 @@
+﻿@{
+    ViewBag.Title = "产品中心--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+
+    Layout = "~/Views/Shared/Front.cshtml";
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 25px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 14px;
+            line-height: 40px;
+            width: 155px;
+            height: 137px;
+            position: relative;
+            border:1px solid #FFF;
+
+        }
+
+        .product li:hover{
+            border:1px solid #ddd;
+        }
+
+    p span, p label, p a {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+
+    label {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+</style>
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+    <a class="litem">产品中心</a>
+    <a class="litem_s">产品中心</a>
+
+</div>
+
+<div class="box" style="width: 804px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><span href="/Product/List">产品中心</span>
+        @if (ViewBag.cat != null)
+        {
+            @Html.Raw(">")<span>@ViewBag.cat.Name</span>
+        }
+        </label>
+
+    </div>
+    <center><div style="height:470px;">
+    <ul class="product">
+        @foreach (var p in ViewBag.products as List<PD.Model.Product>)
+            {
+            <li>
+                <a href="/Product/Detail?ID=@p.ID">
+                    <img src="/Images/soft.jpg" width="155" height="137" />
+                    <center><span style="background-color:white;height:26px;line-height:26px;color:black;font-family:'Microsoft YaHei';font-size:14px;display:block;position: absolute; left: 0px; bottom: 0px; width: 100%; filter: alpha(opacity=50); -moz-opacity: 0.5; -khtml-opacity: 0.5; opacity: 0.5;">@(p.Name.Length > 10 ? p.Name.Substring(0, 9) + "..." : p.Name)</span></center>
+
+
+                </a>
+            </li>
+        }
+    </ul>
+</div>
+
+    </center>
+    <div class="clear"></div>
+    @*<center>
+        <p>
+
+            @Html.PageLinks(pi, s => "/Product/List?pg=" + s.ToString())  <span>&nbsp;共@(pi.TotalPages)页</span><span>&nbsp;@(pi.TotalItems)条记录</span>
+
+        </p>
+
+    </center>*@
+    @{
+        var pi = ViewBag.PageInfo as An.Miuskin.Web.Helper.PagingInfo;
+    }
+    <div id="flip">
+
+        <style>
+            #flip {
+                text-align: center;
+                margin-top: 10px;
+            }
+
+                #flip a {
+                    border: 1px solid #ccc;
+                    color: #aaa;
+                    padding: 2px 5px;
+                    margin: 2px;
+                    text-decoration: none;
+                    cursor: pointer;
+                }
+
+                #flip .cpb {
+                    color: #333;
+                }
+        </style>
+        @Html.PageLinks(pi, (a) => { return "/product/list?pg=" + a.ToString(); })
+    </div>
+
+
+
+</div>

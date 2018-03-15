@@ -1,0 +1,108 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    $(function () {
+        $("#user-datagrid").datagrid({
+            url: $.InvokeUrl("Admin", "DataGridJson"),
+            nowrap: false, rownumbers: true, border: false,
+            fit: true, fitColumns: true, pagination: true,
+            sortName: "InsertTime", sortOrder: "asc",
+            pageSize: 20, idField: "ID", toolbar: "#user-toolbar",
+            columns:
+            [[
+                { field: "ck", checkbox: true },
+                { field: "Name", title: "姓名", width: 10, align: "center", sortable: true },
+
+                { field: "UserName", title: "用户名", width: 10, align: "center", sortable: true },
+                { field: "InsertTime", title: "发布时间", width: 20, align: "center", sortable: true }
+            ]]
+        });
+        $('#AddUser').click(function () {
+            UserInsert();
+        });
+        $('#UpdateUser').click(function () {
+            UserUpdate();
+        });
+        $('#DeleteUser').click(function () {
+            UserDelete();
+        });
+
+        $("#RefreshUser").click(function () {
+            $.DataGridReload("user-datagrid");
+        });
+
+    });
+
+    function UserInsert() {
+        UserMutual("添加", "/Admin/Edit", 485);
+    }
+
+    function UserUpdate() {
+        var rows = $("#user-datagrid").datagrid("getChecked");
+        if (rows.length == 1) {
+            UserMutual("修改", "/Admin/Edit?ID=" + rows[0].ID, 485);
+        }
+        else { $.Message("此操作必须并且只能选择一条数据!"); }
+    }
+
+    function UserDelete() {
+        var rows = $("#user-datagrid").datagrid("getChecked");
+        if (rows.length > 0) {
+            $.Confirm("确认删除?", function (del) {
+                if (del) {
+                    var ids = []; for (var i = 0; i < rows.length; i++) { ids.push("'" + rows[i].ID + "'"); }
+                    $.MutualInvoke({
+                        assembly: "Admin", method: "Delete", data: { ID: ids.join(",") },
+                        success: function (result) { $.Slide(result); $.DataGridReload("user-datagrid"); }
+                    });
+                }
+            });
+        }
+        else { $.Message("请先勾选要删除的内容"); }
+    }
+
+    function UserMutual(title, href,height) {
+        $.ModelDialog({
+            title: title, href: href, width: 455, height: height, handler: function () {
+                $.ModelForm({
+                    id: "#user-model", button: this, validate: true,
+                    //editor: "#user-content",
+                    url: $.InvokeUrl("Admin", "Edit"),
+                    success: function () { $.DataGridReload("user-datagrid"); }
+                });
+            },
+            onLoad: function () { UserFormInit(); }
+        });
+    }
+
+
+
+    function UserFormInit() {
+        //$.EditorInit("#user-content", 338, "p", true);
+    }
+</script>
+
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false" style="border-left:1px solid #dddddd;">
+        <table id="user-datagrid"></table>
+    </div>
+</div>
+
+<div id="user-toolbar">
+    @using (Html.BeginForm(new { id = "form1" }))
+    { 
+        <table>
+            <tr>
+                <td>
+                    <input type="button" id="AddUser" value="添加" />
+                    <input type="button" id="UpdateUser" value="修改" />
+                    <input type="button" id="DeleteUser" value="删除" />
+                    <input type="button" id="RefreshUser" value="刷新" />
+
+                </td>
+            </tr>
+        </table>
+    }
+</div>

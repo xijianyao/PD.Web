@@ -1,0 +1,7 @@
+﻿@{
+    var st=ViewContext.ViewData["set"] as List<PD.Model.Setting>;
+    ViewBag.Title = "管理后台--" + st.Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+

@@ -1,0 +1,133 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    $(function () {
+        $("#product-datagrid").datagrid({
+            url: $.InvokeUrl("Product", "DataGridJson"),
+            nowrap: false, rownumbers: true, border: false,
+            fit: true, fitColumns: true, pagination: true,
+            sortName: "InsertTime", sortOrder: "asc",
+            pageSize: 20, idField: "ID", toolbar: "#product-toolbar",
+            columns:
+            [[
+                { field: "ck", checkbox: true },
+                { field: "Name", title: "名称", width: 10, align: "center", sortable: true },
+                { field: "Code", title: "编号", width: 10, align: "center", sortable: true },
+                { field: "Size", title: "型号", width: 10, align: "center", sortable: true },
+
+                { field: "InsertTime", title: "添加时间", width: 20, align: "center", sortable: true }
+            ]]
+        });
+        $('#AddProduct').click(function () {
+            ProductInsert();
+        });
+        $('#UpdateProduct').click(function () {
+            ProductUpdate();
+        });
+        $('#DeleteProduct').click(function () {
+            ProductDelete();
+        });
+
+        $("#RefreshProduct").click(function () {
+            $.DataGridReload("product-datagrid");
+        });
+
+    });
+
+    function ProductInsert() {
+        ProductMutual("添加", "/Product/Edit", 585);
+    }
+
+    function ProductUpdate() {
+        var rows = $("#product-datagrid").datagrid("getChecked");
+        if (rows.length == 1) {
+            ProductMutual("修改", "/Product/Edit?ID=" + rows[0].ID, 585);
+        }
+        else { $.Message("此操作必须并且只能选择一条数据!"); }
+    }
+
+    function ProductDelete() {
+        var rows = $("#product-datagrid").datagrid("getChecked");
+        if (rows.length > 0) {
+            $.Confirm("确认删除?", function (del) {
+                if (del) {
+                    var ids = []; for (var i = 0; i < rows.length; i++) { ids.push("'" + rows[i].ID + "'"); }
+                    $.MutualInvoke({
+                        assembly: "Product", method: "Delete", data: { ID: ids.join(",") },
+                        success: function (result) { $.Slide(result); $.DataGridReload("product-datagrid"); }
+                    });
+                }
+            });
+        }
+        else { $.Message("请先勾选要删除的内容"); }
+    }
+
+    function ProductMutual(title, href,height) {
+        $.ModelDialog({
+            title: title, href: href, width: 555, height: height, handler: function () {
+                $.ModelForm({
+                    id: "#product-model", button: this, validate: true,
+                    editor: "#product-content",
+                    url: $.InvokeUrl("Product", "Edit"),
+                    success: function () { $.DataGridReload("product-datagrid"); }
+                });
+            },
+            onLoad: function () { ProductFormInit(); }
+        });
+    }
+
+
+
+    function ProductFormInit() {
+        $.EditorInit("#product-content", 538, "p", true);
+    }
+
+    function ProductUpload() {
+
+        var product_upload = KindEditor.editor({ uploadJson: "/UploadImg/Upload?dir=product&width=155&height=137" });
+        product_upload.loadPlugin("image", function () {
+            product_upload.plugin.imageDialog({
+                showRemote: false,
+                clickFn: function (url, title, width, height, border, align) {
+                    $("#product-img").attr("value", url.split('/')[url.split('/').length - 1]);
+                    $.Message("上传成功"); product_upload.hideDialog();
+                }
+            });
+        });
+    }
+
+    function ProductImg() {
+        //$("<div />").dialog({
+        //    title: "查看图片", width: 480 + 14, height: 320 + 36, modal: true, cache: false,
+        //    content: "<img style='display:block;' src='../userfiles/product/" + $("#product-img").val() + "' />",
+        //    onClose: function () { $(this).dialog("destroy"); }
+        //});
+        window.open("/userfiles/product/" + $("#product-img").val());
+
+    }
+</script>
+
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false" style="border-left:1px solid #dddddd;">
+        <table id="product-datagrid"></table>
+    </div>
+</div>
+
+<div id="product-toolbar">
+    @using (Html.BeginForm(new { id = "form1" }))
+    { 
+        <table>
+            <tr>
+                <td>
+                    <input type="button" id="AddProduct" value="添加" />
+                    <input type="button" id="UpdateProduct" value="修改" />
+                    <input type="button" id="DeleteProduct" value="删除" />
+                    <input type="button" id="RefreshProduct" value="刷新" />
+
+                </td>
+            </tr>
+        </table>
+    }
+</div>

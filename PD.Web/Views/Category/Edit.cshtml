@@ -1,0 +1,35 @@
+﻿@model PD.Model.Category
+
+    @{
+        ViewBag.Title = "Edit";
+        Layout = null;
+    }
+
+    <div class="form-box" align="center">
+        <form id="category-model" method="post">
+            <table class="model-table" style="margin-top: 10px;">
+
+                <tr>
+                    <td>
+                        <span>名称:&nbsp;</span>
+                        <input name="Name" class="easyui-validatebox" data-options="required:true" value="@Model.Name" style="width: 350px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>排序:&nbsp;</span>
+                        <input name="Sort" class="easyui-validatebox" data-options="required:true" value="@Model.Sort" style="width: 350px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <span>简介:&nbsp;</span>
+                        <input name="Desc" class="easyui-validatebox" data-options="" value="@Model.Desc" style="width: 350px" />
+                    </td>
+                </tr>
+
+            </table>
+            <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+        </form>
+    </div>
+

@@ -1,0 +1,151 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <link href="Content/main.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.7.1.min.js"></script>
+    <style>
+        .focus {
+            margin-top: 10px;
+            width: 980px;
+            height: 400px;
+        }
+
+        .box {
+            border: 1px solid #b5d3f4;
+            float: left;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .boxhead {
+            width: 100%;
+            margin: 0 auto;
+            height: 37px;
+            line-height: 37px;
+            border-top: 1px solid #b5d3f4;
+            border-bottom: 1px solid #b5d3f4;
+            background: url('/images/boxhead.jpg') repeat-x bottom;
+        }
+
+        .cat {
+            margin-left: 28px;
+            font-family: 'Microsoft YaHei';
+            font-size: 14px;
+            color: #075ab0;
+        }
+
+        .more {
+            margin-right: 28px;
+            font-family: 'Microsoft YaHei';
+            font-size: 14px;
+            color: #075ab0;
+            float: right;
+        }
+
+        .nav ul {
+            list-style: none;
+        }
+
+            .top {
+                float: left;
+                margin:10px 0;
+                line-height: 40px;
+                padding: 0 20px;
+                position:relative;
+            }
+
+                .nav ul li a {
+                    font-family: 'Microsoft YaHei';
+                    font-size: 15px;
+                    color: white;
+                    text-decoration: none;
+                }
+                .nav ul li ul {
+                display:none;
+                position:absolute;
+                top:40px;left:-40px;
+                }
+                .nav ul li ul li{
+                line-height:40px;
+                height:40px;
+                width:118px;
+                background:#51a1ee;
+                border-top:1px solid #FFF; 
+                text-align:center;
+                }
+    </style>
+    <script>
+        $(function () {
+            $('#nav li').each(function () {
+                $(this).hover(function () {
+                    //$(this).css('background-color', 'white');
+                    //$(this).children('a').css('color', '#075ab0');
+
+                    $(this).children('ul').css('display', 'block');
+                }, function () {
+                    //$(this).css('background-color', '');
+                    //$(this).children('a').css('color', '#FFF');
+
+                    $(this).children('ul').css('display', 'none');
+                });
+            });
+        })
+    </script>
+
+</head>
+<body>
+    <div class="content">
+        <div class="logo"></div>
+        <div class="nav">
+            <ul id="nav">
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a>
+                    <ul>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                        <li><a href="index.html">关于普迪</a></li>
+                    
+                    </ul>
+                </li>
+                <li class="top"><a href="index.html">产品中心</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+                <li class="top"><a href="index.html">关于普迪</a></li>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+
+        <div class="focus">
+            <img src="/images/focus_05.jpg" />
+        </div>
+        <div class="box" style="width: 640px; height: 193px; margin-right: 15px;">
+            <div class="boxhead">
+                <span class="cat">公司简介</span>
+                <span class="more">MORE></span>
+            </div>
+        </div>
+        <div class="box" style="width: 320px; height: 193px;"></div>
+        <div class="box" style="width: 978px; height: 198px;"></div>
+
+        <div class="box" style="width: 314px; height: 180px; margin-right: 15px;"></div>
+        <div class="box" style="width: 314px; height: 180px; margin-right: 15px;"></div>
+        <div class="box" style="width: 314px; height: 180px;"></div>
+        <div class="clear"></div>
+        <div class="bottom"></div>
+    </div>
+</body>
+</html>

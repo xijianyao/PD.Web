@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/easyui/themes/default/easyui.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/page.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/easyui/themes/icon.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/easyui/themes/myicon.css")" rel="stylesheet" type="text/css" />
+    <script src="@Url.Content("~/Scripts/jquery-1.7.1.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery.easyui.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/easyui/locale/easyui-lang-zh_CN.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/common.js")"></script>
+    <script src="~/Scripts/index.js"></script>
+
+    <script src="@Url.Content("~/Scripts/Menus.js")"></script>
+    <script src="@Url.Content("~/Scripts/kindeditor/themes/default/default.css")"></script>
+    <script src="@Url.Content("~/Scripts/kindeditor/kindeditor-all-min.js")"></script>
+    <script src="@Url.Content("~/Scripts/kindeditor/lang/zh_CN.js")"></script>
+    <script src="@Url.Content("~/Scripts/kindeditor/plugins/code/prettify.js")"></script>
+
+    <script type="text/javascript">
+
+        $(function () {
+            var title = "首页";
+            AddTab(title, "/Admin/Tip");
+        });
+
+    </script>
+    @*@using An.Miuskin.Web.Helper;*@
+    @{Html.EnableClientValidation(false);
+      Html.EnableUnobtrusiveJavaScript(false);}
+    <script type="text/javascript">
+        function showEdit() {
+            $.ModelDialog({
+                title: "修改密码",
+                href: "/admin/updatepwdpage",
+                width: 300, height: 320, handler: function () {
+                    var button = $(this);
+                    $("#updatepwd-box").form("submit", {
+                        url: "/admin/updatepwd",
+                        onSubmit: function () {
+                            var flat = false;
+                            if (flat) {
+                                $.AppendLoading();
+                                return true;
+                            }
+                        },
+                        success: function (result) {
+                            $.RemoveLoading();
+                            $.Message(result);
+                            $.ButtonCloseDialog(button);
+                        },
+                        error: function (ex) {
+                            $.RemoveLoading();
+                            $.Message(ex);
+                            return false;
+                        }
+                    });
+                },
+                onLoad: function () { }
+            });
+        }
+    </script>
+</head>
+<body class="easyui-layout">
+    <div id="layout-north" data-options="region:'north',border:false">
+        @{
+            var st = ViewContext.ViewData["set"] as List<PD.Model.Setting>;
+            }
+        <div id="layout-logo">@st.Where(s => s.Mark == "SiteName").FirstOrDefault().Content</div>
+        <div id="layout-functions">
+            <a href="javascript:void(0)" onclick="showEdit()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-lock'">修改密码</a>
+            <a href="@Url.Action("LogOff", "Admin")" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'">注销登录</a>
+        </div>
+    </div>
+    <div id="layout-west" title="功能导航" data-options="region:'west',border:false">
+        <div class="easyui-accordion" data-options="fit:true,border:false,animate:false">
+
+
+            <div id='menu_div' title="系统管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="Info"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>信息管理</a></li>
+                        <li id="Setting"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>系统设置</a></li>
+                        <li id="Msg"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>留言管理</a></li>
+
+                    </ul>
+                </li>
+            </div>
+
+            <div id='menu_div' title="新闻管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="news"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>新闻管理中心</a></li>
+                    </ul>
+                </li>
+            </div>
+            <div id='menu_div' title="产品管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="product"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>产品管理</a></li>
+                        <li id="category"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>产品分类管理</a></li>
+
+                    </ul>
+                </li>
+            </div>
+            <div id='menu_div' title="焦点图片管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="focus"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>焦点图片</a></li>
+                    </ul>
+                </li>
+            </div>
+            <div id='menu_div' title="下载管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="Download"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>下载管理</a></li>
+                    </ul>
+                </li>
+            </div>
+            <div id='menu_div' title="链接管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="link"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>链接管理</a></li>
+                    </ul>
+                </li>
+            </div>
+                        <div id='menu_div' title="用户管理" iconcls="">
+                <li class='yjca' style='border-bottom: 0px dotted rgb(0, 0, 0);'>
+                    <ul class="layout-nav">
+                        <li id="user"><a href="javascript:void(0)" style='border-bottom: 0px red solid;'>用户信息</a></li>
+                    </ul>
+                </li>
+            </div>
+
+        </div>
+    </div>
+    <div id="layout-center" data-options="region:'center',border:false">
+        <div id="layout-tabs-menu" style="display: none;">
+            <div type="refresh">刷新</div>
+            <div class="menu-sep"></div>
+            <div type="close">关闭</div>
+            <div type="closeOther">关闭其他</div>
+            <div type="closeAll">关闭所有</div>
+        </div>
+        <div id="layout-tabs">@RenderBody()</div>
+    </div>
+    <div id="layout-bottom" data-options="region:'south',border:false">Copyright &copy; AINKJ All Rights Reserved.</div>
+    <div id="layout-common-dialog" style="display: none;"></div>
+
+
+</body>
+</html>

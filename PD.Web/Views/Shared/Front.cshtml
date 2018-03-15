@@ -1,0 +1,295 @@
+﻿@{
+    var st = ViewContext.ViewData["set"] as List<PD.Model.Setting>;
+    var link = new PD.Util.PDService("Link", "ID").GetObjects<PD.Model.Link>("");
+    var info = new PD.Util.PDService("Info", "ID").GetObjects<PD.Model.Info>("");
+    var cat = new PD.Util.PDService("Category", "ID").GetObjects<PD.Model.Category>("");
+
+}
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>@ViewBag.Title</title>
+    <meta name="keywords" content="@st.Where(s => s.Mark == "Keywords").FirstOrDefault().Content"/>
+    <meta name="description" content="@st.Where(s => s.Mark == "Description").FirstOrDefault().Content"/>
+
+    <link href="/Content/main.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-1.7.1.min.js"></script>
+    <style>
+
+        .nav ul {
+            list-style: none;
+        }
+
+        .top {
+            float: left;
+
+            line-height: 40px;
+            padding: 10px 30px;
+            position: relative;
+        }
+        .top:hover{
+            /*background-color:aqua;*/
+        }
+        .nav ul li a {
+            font-family: 'Microsoft YaHei';
+            font-size: 15px;
+            color: white;
+            text-decoration: none;
+        }
+
+        .nav ul li ul {
+            /*display: none;*/ visibility: hidden;
+            z-index: 999999;
+            position: absolute;
+            top: 60px;
+            left: 0px;
+        }
+
+            .nav ul li ul li {
+            z-index: 999999;position:relative;
+                line-height: 40px;
+                height: 40px;
+                width: 118px;
+                background: #075ab0;
+                /*border-top: 1px solid #aaa;*/
+                text-align: center;
+            }
+            .nav ul li ul li:hover {
+                background-color:#3399FF;
+            }
+        .litem {
+            display: block;
+            height: 32px;
+            width: 100%;
+            color: white;
+            font-size: 15px;
+            font-family: 'Microsoft YaHei';
+            line-height: 32px;
+            font-weight: bold;
+            text-align: center;
+            background: url('/Images/lItem_03.jpg') repeat-x;
+        }
+
+        .litem_s {
+            display: block;
+            height: 35px;
+            width: 100%;
+            color: #005FAF;
+            line-height: 35px;
+            font-size: 15px;
+            font-family: 'Microsoft YaHei';
+            font-weight: bold;
+            text-align: center;
+            background: url('/Images/litem_select_05.jpg') repeat-x;
+        }
+
+        #contact label, .pinfo li label {
+            font-size: 12px;
+            color: #4b4b4b;
+        }
+
+        .copy {
+            height: 20px;
+            line-height: 20px;
+        }
+
+            .copy label, .link a {
+                font-size: 12px;
+                color: #010101;
+            }
+
+ .top:hover ul {
+            visibility: visible;
+            z-index:999999;
+        }
+        .no_top_b {
+        border-top:none;}
+    </style>
+    @*    <script>
+        $(function () {
+            $('.top').each(function () {
+                $(this).hover(function () {
+                    //$(this).css('background-color', 'white');
+                    //$(this).children('a').css('color', '#075ab0');
+
+                    $(this).children('ul').css('display', 'block'); $(this).css('height', 'auto');
+                }, function () {
+                    //$(this).css('background-color', '');
+                    //$(this).children('a').css('color', '#FFF');
+
+                    $(this).children('ul').css('display', 'none');
+                });
+            });
+        })
+    </script>*@
+
+</head>
+
+<body>
+    <div class="content">
+        <div class="logo"></div>
+        <div class="nav">
+            <ul id="nav">
+                <li class="top" @*style="background-color: white; padding: 0 10px; margin: 10px 20px;"*@><a @*style="color: #075ab0"*@ href="/Home/Index">首&nbsp;&nbsp;&nbsp;&nbsp;页</a></li>
+                <li class="top"><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "Intro").FirstOrDefault().ID">关于我们</a>
+                    <ul>
+                        @{
+                            if (info.Where(s => s.Mark == "Intro").Any())
+                            {
+                            <li style="border-top:none"><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "Intro").FirstOrDefault().ID">公司简介</a></li>
+                            } if (info.Where(s => s.Mark == "QYWH").Any())
+                            {
+                            <li><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "QYWH").FirstOrDefault().ID">企业文化</a></li>
+                            } if (info.Where(s => s.Mark == "GSZZ").Any())
+                            {
+                            <li><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "GSZZ").FirstOrDefault().ID">公司资质</a></li>
+                            } if (info.Where(s => s.Mark == "JYLY").Any())
+                            {
+                            <li><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "JYLY").FirstOrDefault().ID">经营领域</a></li>
+                            } if (info.Where(s => s.Mark == "ZZJG").Any())
+                            {
+                            <li><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "ZZJG").FirstOrDefault().ID">组织机构</a></li>
+                            }
+                            if (info.Where(s => s.Mark == "XSWL").Any())
+                            {
+                            <li><a href="/Info/Detail?ID=@info.Where(s => s.Mark == "XSWL").FirstOrDefault().ID">销售网络</a></li>
+                            }
+                            }
+
+
+                    </ul>
+                </li>
+                <li class="top"><a href="/Product/List">产品中心</a>
+                <ul>
+                    @foreach (var c in  cat)
+                    {
+                    <li><a href="/Product/List?cat=@c.ID">@c.Name</a></li>
+                    }
+                </ul>
+                </li>
+                <li class="top"><a href="/News/List">新闻中心</a>
+                    <ul>
+                        <li style="border-top:none"><a href="/News/List?Type=1">公司动态</a></li>
+                        <li><a href="/News/List?Type=2">行业动态</a></li>
+
+                    </ul>
+                </li>
+                <li class="top"><a href="/Info/Support?ID=@info.Where(s => s.Mark == "SHFW").FirstOrDefault().ID">技术支持</a>
+                    <ul>
+                        @{
+                            if (info.Where(s => s.Mark == "SHFW").Any())
+                            {
+                            <li style="border-top:none"><a href="/Info/Support?ID=@info.Where(s => s.Mark == "SHFW").FirstOrDefault().ID">售后服务</a></li>
+                            }
+                            if (info.Where(s => s.Mark == "JJWT").Any())
+                            {
+                            <li><a href="/Info/Support?ID=@info.Where(s => s.Mark == "JJWT").FirstOrDefault().ID">解决问题</a></li>
+                            }
+                        }
+                        <li><a href="/Download/List">资料下载</a></li>
+
+                    </ul>
+                </li>
+                <li class="top"><a href="/Msg/Send">在线留言</a></li>
+                <li class="top"><a href="/Setting/Contact">联系我们</a></li>
+                <li class="top"><a href="/Info/Job?ID=@info.Where(s => s.Mark == "ZPZW").FirstOrDefault().ID">人才招聘</a>
+                    <ul>
+                        @{
+                                                        if (info.Where(s => s.Mark == "ZPZW").Any())
+                            {
+                            <li style="border-top:none"><a href="/Info/Job?ID=@info.Where(s => s.Mark == "ZPZW").FirstOrDefault().ID">招聘职位</a></li>
+                            }
+                            if (info.Where(s => s.Mark == "RCLN").Any())
+                            {
+                            <li><a href="/Info/Job?ID=@info.Where(s => s.Mark == "RCLN").FirstOrDefault().ID">人才理念</a></li>
+                            }
+
+                        }
+
+                    </ul>
+
+                </li>
+                <div class="clear"></div>
+
+            </ul>
+        </div>
+        <div class="clear"></div>
+
+        @RenderBody()
+
+
+        @if (!ViewBag.Title.Contains("首页"))
+        {
+            <div id="contact" class="box" style="width: 320px; height: 180px; margin-right: 15px; background: url('/Images/contact_bg.jpg') bottom no-repeat">
+                <div class="boxhead">
+                    <span class="cat">联系方式</span>
+                </div>
+                <div style="line-height: 20px; margin-left: 40px;">
+                    <label>地址：<span>@st.Where(s => s.Mark == "Address").FirstOrDefault().Content</span></label><br />
+                    <label>联系人：<span>@st.Where(s => s.Mark == "Person").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+
+                    <label>手机：<span>@st.Where(s => s.Mark == "Mobile").FirstOrDefault().Content</span></label><br />
+                    <label>电话：<span>@st.Where(s => s.Mark == "Phone").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+
+                    <label>传真：<span>@st.Where(s => s.Mark == "Deliver").FirstOrDefault().Content</span></label><br />
+
+                    <label>邮箱：<span>@st.Where(s => s.Mark == "Email").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+                                        <label>QQ：<span>@st.Where(s => s.Mark == "QQ").FirstOrDefault().Content</span></label>
+                </div>
+            </div>
+        }
+        <div class="clear"></div>
+        <div class="bottom">
+            <center>
+                <div style="text-align: center; padding: 20px 0;">
+                    <ul>@{
+                        var i = 0;
+                        foreach (var l in link)
+                        {
+                            <li style="display:inline-block;height:30px;line-height:30px;vertical-align:middle;">
+                        <span class="link" style="margin: 10px 20px;"><a href="@l.Href">@l.Name</a></span>
+                            @{
+                                i++;
+                            if (i < link.Count)
+                            {
+                                <div style="display:inline-block;width:1px;background-color: #CCC;height:15px;"></div>
+                            }
+                        }</li>
+                        }
+                    }
+                        </ul>
+                </div>
+            </center>
+            <center>
+                <div class="copy">
+                    <label>@Html.Raw(st.Where(s => s.Mark == "Copyright").FirstOrDefault().Content)</label>
+                </div>
+                <div class="copy">
+                    <label>地址:<span>@st.Where(s => s.Mark == "Address").FirstOrDefault().Content</span></label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>电话:<span>@st.Where(s => s.Mark == "Phone").FirstOrDefault().Content</span></label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label>邮箱:<span>@st.Where(s => s.Mark == "Email").FirstOrDefault().Content</span></label>
+                </div>
+                <div class="copy">
+
+                </div>
+
+            </center>
+        </div>
+    </div>
+    <script src="~/static/base.js"></script>
+    <script src="~/static/common.js"></script>
+    <link href="~/static/layout.css" rel="stylesheet" />
+    <div class="suspend" style="width: 40px;">
+        <dl>
+            <dt class="IE6PNG"></dt>
+            <dd class="suspendQQ"><a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=@(st.Where(s => s.Mark == "KFQQ").FirstOrDefault().Content)&site=qq&menu=yes"></a></dd>
+            <dd class="suspendTel"><a href="/Setting/Contact" target="_blank"></a></dd>
+        </dl>
+    </div>
+    <script type="text/javascript">
+Common.init();
+    </script>
+</body>
+</html>

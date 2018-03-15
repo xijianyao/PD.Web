@@ -1,0 +1,363 @@
+﻿@{
+    var st = ViewContext.ViewData["set"] as List<PD.Model.Setting>;
+    Layout = "~/Views/Shared/Front.cshtml";
+    ViewBag.Title = "首页--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+    
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 0px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 4px;
+            line-height: 40px;
+            width: 155px;
+            height: 150px;
+        }
+
+    .news {
+        list-style: none;
+        padding: 10px 10px;
+    }
+
+        .news li {
+            line-height: 30px;
+            width: 100%;
+            height: 30px;
+            border-bottom: 1px dashed #4b4b4b;
+  clear:both;
+
+        }
+
+            .news li span {
+                font-size: 12px;
+                color: #4b4b4b;
+            }
+
+    .about {
+        float: right;
+        width: 505px;
+        margin: 15px;
+        word-break: break-all;
+        margin-left: 0px;
+    }
+
+        .about p {
+            font-size: 12px;
+            word-break: break-all;
+            color: #4b4b4b;
+        }
+</style>
+@if (ViewBag.focus.Count > 0)
+{
+
+    @*<script src="~/Scripts/jquery.kinMaxShow-1.1.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            $("#kinMaxShow").kinMaxShow({
+                //设置焦点图高度(单位:像素) 必须设置 否则使用默认值 500    
+                height: 400,
+                //设置焦点图 按钮效果
+                button: {
+                    //设置焦点图切换方式为mouseover 鼠标经过按钮切换图片, 默认为 click， 可选 click[鼠标点击切换]或mouseover[鼠标滑过切换]        
+                    switchEvent: 'mouseover',
+                    //设置显示 索引数字  true 显示， 默认为 false 不显示            
+                    showIndex: true,
+                    //按钮常规下 样式设置 ，css写法，类似jQuery的 $('xxx').css({key:value,……})中css写法。            
+                    //【友情提示：可以设置透明度哦 不用区分浏览器 统一为 opacity，CSS3属性也支持哦 如：设置按钮圆角、投影等，只不过IE8及以下不支持】            
+                    normal: { width: '18px', height: '18px', lineHeight: '18px', right: '16px', bottom: '16px', fontSize: '12px', opacity: 0.8, background: "#666666", border: "1px solid #999999", color: "#CCCCCC", marginRight: '6px' },
+                    //当前焦点图按钮样式 设置，写法同上            
+                    focus: { background: "#CC0000", border: "1px solid #FF0000", color: "#000000" }
+                }
+            });
+
+
+        });
+    </script>*@
+}
+<div style="position:relative;margin-top:8px;">
+<!--焦点图HTML 结构-->
+@*<div id="kinMaxShow" class="focus">
+    @foreach (var p in ViewBag.focus as List<PD.Model.Focus>)
+    {
+        <div>
+            <a href="@p.Href" target="_blank">
+                <img src="~/userfiles/focus/@p.Img.Replace("/admin/","")"></a>
+
+        </div>
+    }
+</div>*@
+    <link href="~/Content/nivo-slider/nivo-slider.css" rel="stylesheet" />
+    <script src="~/Content/nivo-slider/jquery.nivo.slider.pack.js"></script>
+    <style type="text/css">
+        .metinfo-banner1 img {
+            height: 400px !important;
+        }
+    </style>
+    <div class="slider-wrapper metinfo-banner1" style="height:400px">
+        <div id="slider" class="nivoSlider">
+            @foreach (var f in ViewBag.focus as List<PD.Model.Focus>)
+            {
+                <a target="_blank" href="@f.Href">
+                    <img src='/userfiles/focus/@f.Img' alt='焦点网游' />
+                </a>
+            }
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#slider').nivoSlider({ effect: 'random', pauseTime: 5000, directionNav: false });
+
+        });
+    </script>
+
+
+</div>
+<div class="box" style="width: 745px; height: 193px; margin-right: 15px;">
+    <div class="boxhead">
+        <span class="cat">公司简介</span>
+
+        <a href="/Info/Detail?ID=@ViewBag.intro.ID"><span class="more">MORE></span></a>
+    </div>
+    <div style="float: left; padding: 20px;">
+        <img style="display: inline-block" width="178" height="122" src="/Images/intro.jpg" />
+    </div>
+    <div class="about" style="">
+        @{string c = PD.Web.Helper.Replace.DelHTML(ViewBag.intro.Content);
+            <p>
+                @(c.Length > 300 ? c.Substring(0, 300) + "..." : c)
+            </p>
+        }
+    </div>
+</div>
+<div class="box" style="width: 378px; height: 193px;">
+    <div class="boxhead">
+        <span class="cat">新闻中心</span>
+
+        <a href="/News/List"><span class="more">MORE></span></a>
+    </div>
+    <ul class="news">
+        @foreach (var p in ViewBag.news as List<PD.Model.News>)
+        {
+            <li>
+                <a style="float:left;" href="/News/Detail?ID=@p.ID">
+                    <span>@(p.Name.Length>24?p.Name.Substring(0,24)+"...":p.Name)</span></a><span style="float: right;">@DateTime.Parse(p.InsertTime.ToString()).ToString("yyyy-MM-dd")</span></li>
+        }
+    </ul>
+</div>
+<div class="box" style="width: 1141px;">
+    <div class="boxhead">
+        <span class="cat">产品中心</span>
+
+        <a href="/Product/List"><span class="more">MORE></span></a>
+    </div>
+    @*<ul class="product">
+        @foreach (var p in ViewBag.products as List<PD.Model.Product>)
+        {
+            <li style="position: relative;"><a href="/Product/Detail?ID=@p.ID">
+                <img src="/Images/soft.jpg" width="155" height="137" />
+                <center><span style="background-color: white; height: 26px; line-height: 26px; color: black; font-family: 'Microsoft YaHei'; font-size: 14px; display: block; position: absolute; left: 0px; bottom: 0px; width: 100%; filter: alpha(opacity=50); -moz-opacity: 0.5; -khtml-opacity: 0.5; opacity: 0.5;">@(p.Name.Length > 10 ? p.Name.Substring(0, 9) + "..." : p.Name)</span></center>
+
+            </a>
+            </li>
+            
+        }
+
+    </ul>*@
+    <style>
+        .xpy {
+  margin: 0;
+  overflow: hidden;
+  position: relative;
+} .xpy ol {
+  position: absolute;
+  width: 2012em;
+}.list-none {
+  list-style: outside none none;
+  margin: 0;
+  padding: 0;
+} .xpy ol li {
+  float: left;
+  text-align: center;box-shadow:0 1px 4px 0 rgba(0, 0, 0, 0.4);color:#333;
+} .xpy ol li .img {
+  display: block;
+  font-size: 0;
+  position: relative;
+  text-align: center;
+} .xpy ol li .img img {
+  border: 1px solid #d6d6d6;
+  margin: auto;
+}.xpy ol li .img div {
+  background: #083d89 none repeat scroll 0 0;
+  bottom: 0;
+  color: #fff;
+  font-size: 14px;
+  left: 0;
+  opacity: 0.9;
+  position: absolute;
+  text-align: center;
+}.xpy ol li .img div section {
+  padding: 10px;
+  position: relative;
+} .index_pro {
+  background: #f1f1f1 none repeat scroll 0 0;
+  padding: 20px 40px;
+}  .flip {
+  float: left;
+  height: 168px;
+  position: absolute;
+  top: 45px;
+  width: 70px;
+  z-index: 100;
+}  .prev {
+  float: left;
+  left: 5px;
+  position: absolute;
+  top: -20px;
+}  .next,  .prev {
+  background: rgba(0, 0, 0, 0) url("/images/neu.gif") no-repeat scroll 0 50%;
+  width: 25px;
+} .next {
+  background-position: -40px 50%;
+  float: right;
+  left: 1110px;
+  position: absolute;
+  top: -20px;
+}#trigger {
+  display: none;
+}.cpzz_one {
+  /*margin: 20px auto 0;*/
+  position: relative;
+  /*width: 1100px;*/
+}.cpzz_one .xpy ol li .img div section p {
+  text-align: left;
+}.cpzz_one .xpy ol li .img div section h2{
+font-size:100%
+ }
+    </style>
+    <div class="cpzz_one">
+        <div class="flip">
+            <p id="trigger">
+                <a href="javascript:void(0);" target="_self" class="current">1</a><a href="javascript:void(0);" target="_self" class="">2</a><a href="javascript:void(0);" target="_self" class="">3</a><a href="javascript:void(0);" target="_self" class="">4</a><a href="javascript:void(0);" target="_self" class="">5</a><a href="javascript:void(0);" target="_self" class="">6</a><a href="javascript:void(0);" target="_self" class="">7</a><a href="javascript:void(0);" target="_self" class="">8</a><a href="javascript:void(0);" target="_self" class="">9</a><a href="javascript:void(0);" target="_self" class="">10</a>
+            </p>
+            <a href="javascript:void(0);" style="height:160px;" id="car_prev" class="prev"></a>
+            <a href="javascript:void(0);" style="height:160px;" id="car_next" class="next"></a>
+        </div>
+        <div class="index_pro">
+            <div class="xpy" id="indexcar" data-listnum="5">
+                <ol class="list-none metlist">
+                    @foreach (var p in ViewBag.products as List<PD.Model.Product>)
+            {
+                        <li class="list">
+                            <a href="/product/detail/@p.ID" target='_self' title="" class="img">
+                                <img src="/Images/soft.jpg" alt="图片关键词" title="图片关键词" width="200" height="160" />
+                                <div style="width:200px; height:160px; top:162px;">
+                                    <section>
+                                        <h2>@p.Name</h2>
+                                        @*<p>@p.Desc</p>*@
+                                    </section>
+                                    @*</dl>*@
+                                </div>
+                            </a>
+                        </li>
+                    }
+
+
+                </ol>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="box" style="width: 364px; height: 180px; margin-right: 15px;">
+    <div class="boxhead">
+        <span class="cat">经营领域</span>
+
+        <a href="/Info/Detail?ID=@(new PD.Util.PDService("Info", "ID").GetModel<PD.Model.Info>("Mark", "JYLY").ID)"><span class="more">MORE></span></a>
+    </div>
+    <div style="margin: 10px; word-break: break-all;">
+        @{string n = new PD.Util.PDService("Info", "ID").GetModel<PD.Model.Info>("Mark", "JYLY").Content;
+            <label style="font-size: 12px; color: #4b4b4b">
+                @(Html.Raw(n.Length > 200 ? n.Substring(0, 200) + "..." : n))
+            </label>
+        }
+    </div>
+</div>
+<div class="box" style="width: 364px; height: 180px; margin-right: 15px;">
+    <div class="boxhead">
+        <span class="cat">下载中心</span>
+
+        <a href="/Download/List"><span class="more">MORE></span></a>
+    </div>
+    <ul class="news">
+        @foreach (var p in ViewBag.downloads as List<PD.Model.Download>)
+        {
+            <li>
+                <a style="float:left" href="/Download/Detail?ID=@p.ID">
+                    <span>@(p.Name.Length>20?p.Name.Substring(0,20)+"...":p.Name)</span></a><span style="float: right;">@DateTime.Parse(p.InsertTime.ToString()).ToString("yyyy-MM-dd")</span></li>
+//            <div class="clear"></div>
+        
+        }
+    </ul>
+</div>
+<div id="contact" class="box" style="width: 378px; height: 180px; background: url('/Images/contact_bg.jpg') bottom no-repeat">
+    <div class="boxhead">
+        <span class="cat">联系方式</span>
+    </div>
+    <div style="line-height: 20px; margin-left: 40px;">
+        <label>地址：<span>@st.Where(s => s.Mark == "Address").FirstOrDefault().Content</span></label><br />
+        <label>联系人：<span>@st.Where(s => s.Mark == "Person").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+
+                    <label>手机：<span>@st.Where(s => s.Mark == "Mobile").FirstOrDefault().Content</span></label><br />
+        <label>电话：<span>@st.Where(s => s.Mark == "Phone").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+
+                    <label>传真：<span>@st.Where(s => s.Mark == "Deliver").FirstOrDefault().Content</span></label><br />
+
+        <label>邮箱：<span>@st.Where(s => s.Mark == "Email").FirstOrDefault().Content</span></label>&nbsp;&nbsp;
+                                        <label>QQ：<span>@st.Where(s => s.Mark == "QQ").FirstOrDefault().Content</span></label>
+    </div>
+</div>
+<script>
+    /*首页产品展示插件*/
+    eval(function (E, I, A, D, J, K, L, H) { function C(A) { return A < 62 ? String.fromCharCode(A += A < 26 ? 65 : A < 52 ? 71 : -4) : A < 63 ? '_' : A < 64 ? '$' : C(A >> 6) + C(A & 63) } while (A > 0) K[C(D--)] = I[--A]; function N(A) { return K[A] == L[A] ? A : K[A] } if (''.replace(/^/, String)) { var M = E.match(J), B = M[0], F = E.split(J), G = 0; if (E.indexOf(F[0])) F = [''].concat(F); do { H[A++] = F[G++]; H[A++] = N(B) } while (B = M[G]); H[A++] = F[G] || ''; return H.join('') } return E.replace(J, N) }('(z(O){O.8=O.8||{};O.8={U:{Bj:"K",BI:"current",7:L,BV:"Bt",Bc:L.M,Bx:"Bq",l:M,x:M,BO:L.B0,Bl:"swing",5:k,2:k,By:k,_:Bg,4:Bg,T:k},BH:z(O,N){A[O]=N}};R A={"Bq":z(N,O){W.6().BU();W.$(N).show();O.i()},ajax:z(N,O){W.6().first().load(W.9().BE(N).BZ("c"),O)}};z N(G,B,F){R E=W,D=O(W),C,N=G.q-M;O.X(F,z(N,A){P(O.Bo(A))D.a(N,A)});O.r(W,{j:z(H,B){R N=G.BE(H);P(v H=="string"&&H.Bi("#","")){N=G.filter("[c*="+H.Bi("#","")+"]");H=BQ.max(N.index(),L)}B=B||O.Event();B.e="_";D.y(B,[H]);P(B.Bh())p;A[F.Bx].i(E,H,z(){B.e="4";D.y(B,[H])});B.e="onStart";D.y(B,[H]);P(B.Bh())p;C=H;G.removeClass(F.BI);N.Bd(F.BI);p E},u:z(){p F},9:z(){p G},6:z(){p B},$:z(O){p E.6().o(O*F.l,(O+M)*F.l)},Bu:z(){p C},f:z(O){P(B.s().BN(":BF")||B.q<=F.x)p E;P(v O=="BB"){P(O<L)p F.5?E.j(N):E;Z P(O>N)p F.5?E.j(L):E;Z p E.j(O)}Z p E.j()},d:z(){p E.f(C+M)},Ba:z(){p E.f(C-M)},a:z(O,N){D.a(O,N);p E},Bp:z(O){D.Bp(O);p E},_:z(O){p W.a("_",O)},4:z(O){p W.a("4",O)},BK:z(O){}});R H;G.X(z(N){P(F.BV==="Bt")O(W).a({mouseenter:z(O){P(N!==C)H=BD(z(){E.j(N,O)},F.Bc*b)},mouseleave:z(){Br(H)}});Z O(W).a("j",z(O){P(N!==C)E.j(N,O);p k})});P(Bm.Bn)E.j(Bm.Bn);Z P(F.7===L||F.7>L)E.j(F.7);B.BM("K[c^=#]").j(z(N){E.j(O(W).BZ("c"),N)});P(F.By)B.S("cursor","pointer").j(z(){E.d();p k})}O.Q.8=z(C,E){R B=W.BE(v E=="BB"?E:L).g("8");P(B)p B;P(O.Bo(E))E={_:E};R A=O.r({},O.8.U),D=W.q;E=O.r(A,E);W.X(z(I){R F=O(W),A=C.jquery?C:F.Bv(C);P(!A.q)A=D==M?O(C):F.s().BM(C);R H=F.BM(E.Bj);P(!H.q){R G=BQ.ceil(A.q/E.l);for(I=M;I<=G;I++)O("<K>",{c:"javascript:void(L);",target:"_self",text:I}).appendTo(F);H=F.Bv("K")}B=new N(H,A,E);F.g("8",B)});p E.T?B:W}})(w);(z(N){R O=N.8;O.t=O.t||{};O.t.3={U:{3:Y,1:Bb,Bk:Y,T:k}};N.Q.3=z(C){P(v C=="BB")C={1:C};R B=N.r({},O.t.3.U),A;N.r(B,C);W.X(z(){R D=N(W).8();P(D)A=D;R C,E,O=Y;D.BP=z(){P(C)p;O=k;C=setInterval(z(){D.d()},B.1*b);D.d()};D.BG=z(){C=clearInterval(C)};D.Bs=z(){D.BG();O=Y};P(B.Bk)D.6().hover(z(){D.BG();Br(E)},z(){P(!O)E=BD(D.BP,B.1*b)});P(B.3)BD(D.BP,B.1*b)});p B.T?A:W}})(w);(z(O){O.Q.carousel=z(){W.X(z(){R F=O(W).8(),G=F.u(),D=F.6(),A=D.s(),B=F.9().q-M,H=D.o(L,G.l),J=D.o(B*G.l),N=G.2?J.0().V:J.0().h,E=G.2?"V":"h",C=D.q>G.x,I=L;D.S("0","relative").X(z(){I+=G.2?O(W).outerHeight(Y):O(W).outerWidth(Y)});P(C&&J.q<G.x)A.append(D.o(L,G.x).BX().Bd("BX"));O.r(F,{f:z(O){P(A.BN(":BF")||!C)p W;P(O<L){W.BC(Y);p W.j(B)}Z P(O>B){W.BC(k);p W.j(L)}Z p W.j(O)},BC:z(A){R N=A?J:H;O.X(N,z(){O(W).S(E,A?-I:I+"Bw")})},BK:z(C){R B=C?J:H;O.X(B,z(){O(W).S(E,"0px")});A.S(E,C?-N:L+"Bw")}})});p W}})(w);(z(N){N.Q.m=z(O){p W[O?"a":"y"]("m",O)};N.n.special.m={setup:z(){N.n.add(W,A,O,{})},teardown:z(){N.n.remove(W,A,O)}};R A=!N.Bf.mozilla?"BL":"Bz"+(N.Bf.version<"M.B1"?" Be":"");z O(O){switch(O.e){BJ"Be":p N.r(O.g,{BY:O.BY,BW:O.BW,BR:O.BR,BS:O.BS});BJ"Bz":N.r(O,O.g);O.BA=-O.detail/Bb;BT;BJ"BL":O.BA=O.wheelDelta/120;BT}O.e="m";p N.n.handle.i(W,O,O.BA)}N.Q.BL=z(){W.X(z(){R O=N(W).8();O.6().s().m(z(N,A){P(A<L)O.d();Z O.Ba();p k})});p W}})(w);O.8.BH("fade",z(D,N){R A=W,C=A.u(),O=A.6(),B=A.$(D);O.BU();B.fadeIn(C.BO*b,N)});O.8.BH("scroll",z(I,A){R D=W,G=D.u(),F=D.$(I),O=D.6().s(),C=D.Bu(),E=D.9().q-M,N=(C===L&&I===E)||(C===E&&I===L),H=(C===L&&I===E)?Y:k,B=G.2?{V:-F.0().V}:{h:-F.0().h};P(O.BN(":BF"))O.Bs(Y);O.animate(B,G.BO*b,G.Bl,z(){A.i();P(N)D.BK(H)})})', 'a|0|1|_|$|if|fn|var|css|api|cfg|top|this|each|true|else|bind|1000|href|next|type|move|data|left|call|click|false|steps|wheel|event|slice|return|length|extend|parent|plugin|getCfg|typeof|jQuery|visible|trigger|function|position|interval|vertical|autoplay|onSwitch|circular|getPanels|initIndex|switchable|getTriggers|beforeSwitch|getVisiblePanel|delta|number|adjustPosition|setTimeout|eq|animated|pause|addEffect|currentCls|case|resetPosition|mousewheel|find|is|speed|play|Math|pageX|pageY|break|hide|triggerType|clientY|clone|clientX|attr|prev|3|delay|addClass|mousemove|browser|null|isDefaultPrevented|replace|triggers|autopause|easing|location|hash|isFunction|unbind|default|clearTimeout|stop|mouse|getIndex|children|px|effect|panelSwitch|DOMMouseScroll|7|9'.split('|'), 108, 117, /[\w\$]+/g, {}, {}, []));
+    /*模板定义函数*/
+
+
+    function productlist(dom, l) {
+        var w = dom.width();
+        var p = ((w / l) - dom.find('li').width()) / 2;
+        if (p < 0) p = 0;
+        dom.find('li').css("margin", "0px " + p + "px");
+    }
+    $(function () {
+
+        if ($("#indexcar ol li").size() > 0) {
+            $("#indexcar li h3").width($("#indexcar li img").width());
+            $("#indexcar li").height($("#indexcar li").height());
+            $("#indexcar ol").height($("#indexcar li").height());
+            $("#indexcar").height($("#indexcar ol").height());
+            var listnum = $("#indexcar").attr('data-listnum');
+            productlist($("#indexcar"), listnum);
+            $("#trigger").switchable("#indexcar > ol > li", {
+                triggerType: "click", effect: "scroll", steps: 1, visible: listnum
+            }).autoplay().carousel();
+            var api4 = $("#trigger").switchable();
+            $("#car_next").click(function () { api4.next(); });
+            $("#car_prev").click(function () { api4.prev(); });
+            $("#indexcar ol li").hover(function () {
+                $(this).find("div").css("top", "0px");
+
+            }, function () {
+                $(this).find("div").css("top", "162px");
+
+            });
+        }
+    });
+</script>

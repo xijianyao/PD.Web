@@ -1,0 +1,5 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var s = new PD.Util.PDService("Setting","ID").GetObjects<PD.Model.Setting>("");
+    ViewContext.ViewData["set"] = s;
+    }

@@ -1,0 +1,106 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    $(function () {
+        $("#news-datagrid").datagrid({
+            url: $.InvokeUrl("News", "DataGridJson"),
+            nowrap: false, rownumbers: true, border: false,
+            fit: true, fitColumns: true, pagination: true,
+            sortName: "InsertTime", sortOrder: "asc",
+            pageSize: 20, idField: "ID", toolbar: "#news-toolbar",
+            columns:
+            [[
+                { field: "ck", checkbox: true },
+                { field: "Name", title: "标题", width: 10, align: "center", sortable: true },
+                { field: "InsertTime", title: "发布时间", width: 20, align: "center", sortable: true }
+            ]]
+        });
+        $('#AddNews').click(function () {
+            NewsInsert();
+        });
+        $('#UpdateNews').click(function () {
+            NewsUpdate();
+        });
+        $('#DeleteNews').click(function () {
+            NewsDelete();
+        });
+
+        $("#RefreshNews").click(function () {
+            $.DataGridReload("news-datagrid");
+        });
+
+    });
+
+    function NewsInsert() {
+        NewsMutual("添加", "/News/Edit", 585);
+    }
+
+    function NewsUpdate() {
+        var rows = $("#news-datagrid").datagrid("getChecked");
+        if (rows.length == 1) {
+            NewsMutual("修改", "/News/Edit?ID=" + rows[0].ID, 585);
+        }
+        else { $.Message("此操作必须并且只能选择一条数据!"); }
+    }
+
+    function NewsDelete() {
+        var rows = $("#news-datagrid").datagrid("getChecked");
+        if (rows.length > 0) {
+            $.Confirm("确认删除?", function (del) {
+                if (del) {
+                    var ids = []; for (var i = 0; i < rows.length; i++) { ids.push("'" + rows[i].ID + "'"); }
+                    $.MutualInvoke({
+                        assembly: "News", method: "Delete", data: { ID: ids.join(",") },
+                        success: function (result) { $.Slide(result); $.DataGridReload("news-datagrid"); }
+                    });
+                }
+            });
+        }
+        else { $.Message("请先勾选要删除的内容"); }
+    }
+
+    function NewsMutual(title, href,height) {
+        $.ModelDialog({
+            title: title, href: href, width: 555, height: height, handler: function () {
+                $.ModelForm({
+                    id: "#news-model", button: this, validate: true,
+                    editor: "#news-content",
+                    url: $.InvokeUrl("News", "Edit"),
+                    success: function () { $.DataGridReload("news-datagrid"); }
+                });
+            },
+            onLoad: function () { NewsFormInit(); }
+        });
+    }
+
+
+
+    function NewsFormInit() {
+        $.EditorInit("#news-content", 538, "p", true);
+    }
+</script>
+
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false" style="border-left:1px solid #dddddd;">
+        <table id="news-datagrid"></table>
+    </div>
+</div>
+
+<div id="news-toolbar">
+    @using (Html.BeginForm(new { id = "form1" }))
+    { 
+        <table>
+            <tr>
+                <td>
+                    <input type="button" id="AddNews" value="添加" />
+                    <input type="button" id="UpdateNews" value="修改" />
+                    <input type="button" id="DeleteNews" value="删除" />
+                    <input type="button" id="RefreshNews" value="刷新" />
+
+                </td>
+            </tr>
+        </table>
+    }
+</div>

@@ -1,0 +1,103 @@
+﻿@{
+    Layout = null;
+}
+<script type="text/javascript">
+    $(function () {
+        $("#msg-datagrid").datagrid({
+            url: $.InvokeUrl("Msg", "DataGridJson"),
+            nowrap: false, rownumbers: true, border: false,
+            fit: true, fitColumns: true, pagination: true,
+            sortName: "InsertTime", sortOrder: "asc",
+            pageSize: 20, idField: "ID", toolbar: "#msg-toolbar",
+            columns:
+            [[
+                { field: "ck", checkbox: true },
+                { field: "Name", title: "名字", width: 10, align: "center", sortable: true },
+                { field: "Company", title: "公司", width: 10, align: "center", sortable: true },
+
+                { field: "InsertTime", title: "留言时间", width: 20, align: "center", sortable: true }
+            ]]
+        });
+        $('#AddMsg').click(function () {
+            MsgInsert();
+        });
+        $('#UpdateMsg').click(function () {
+            MsgUpdate();
+        });
+        $('#DeleteMsg').click(function () {
+            MsgDelete();
+        });
+
+        $("#RefreshMsg").click(function () {
+            $.DataGridReload("msg-datagrid");
+        });
+
+    });
+
+    function MsgInsert() {
+        MsgMutual("添加", "/Msg/Edit", 485);
+    }
+
+    function MsgUpdate() {
+        var rows = $("#msg-datagrid").datagrid("getChecked");
+        if (rows.length == 1) {
+            MsgMutual("查看", "/Msg/Edit?ID=" + rows[0].ID, 485);
+        }
+        else { $.Message("此操作必须并且只能选择一条数据!"); }
+    }
+
+    function MsgDelete() {
+        var rows = $("#msg-datagrid").datagrid("getChecked");
+        if (rows.length > 0) {
+            $.Confirm("确认删除?", function (del) {
+                if (del) {
+                    var ids = []; for (var i = 0; i < rows.length; i++) { ids.push("'" + rows[i].ID + "'"); }
+                    $.MutualInvoke({
+                        assembly: "Msg", method: "Delete", data: { ID: ids.join(",") },
+                        success: function (result) { $.Slide(result); $.DataGridReload("msg-datagrid"); }
+                    });
+                }
+            });
+        }
+        else { $.Message("请先勾选要删除的内容"); }
+    }
+
+    function MsgMutual(title, href,height) {
+        $.ModelDialog({
+            title: title, href: href, width: 455, height: height, handler: function () {
+                $.ButtonCloseDialog(this);
+            },
+            onLoad: function () { MsgFormInit(); }
+        });
+    }
+
+
+
+    function MsgFormInit() {
+        //$.EditorInit("#msg-content", 338, "p", true);
+    }
+</script>
+
+<div class="easyui-layout" data-options="fit:true">
+
+    <div data-options="region:'center',border:false" style="border-left:1px solid #dddddd;">
+        <table id="msg-datagrid"></table>
+    </div>
+</div>
+
+<div id="msg-toolbar">
+    @using (Html.BeginForm(new { id = "form1" }))
+    { 
+        <table>
+            <tr>
+                <td>
+                    <input type="button" id="AddMsg" value="添加" />
+                    <input type="button" id="UpdateMsg" value="查看" />
+                    <input type="button" id="DeleteMsg" value="删除" />
+                    <input type="button" id="RefreshMsg" value="刷新" />
+
+                </td>
+            </tr>
+        </table>
+    }
+</div>

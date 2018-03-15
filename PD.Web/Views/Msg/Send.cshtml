@@ -1,0 +1,87 @@
+﻿@{
+    ViewBag.Title = "在线留言--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+
+    Layout = "~/Views/Shared/Front.cshtml";
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 25px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 20px;
+            line-height: 40px;
+            width: 155px;
+            height: 137px;
+            background-color: #4cff00;
+        }
+
+    .msgul {
+        margin: 40px 50px;
+    }
+
+        .msgul li {
+            line-height: 34px;
+        }
+
+            .msgul li span {
+                color: #4b4b4b;
+                font-size: 14px;
+            }
+
+            .msgul li input {
+                width: 224px;
+                height: 24px;
+                margin: 0 5px;
+            }
+
+    #contact label, .pinfo li label {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+</style>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/messages_cn.js"></script>
+<script>
+    $().ready(function () {
+        $("#msg").validate({
+        });
+
+    });
+
+</script>
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+    <a class="litem">在线留言</a>
+    <a class="litem_s">在线留言</a>
+
+</div>
+
+<div class="box" style="width: 804px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><span href="">在线留言</span></label>
+    </div>
+    <div style="padding: 20px;">
+        <form id="msg" method="post" action="/Msg/Send">
+            <ul class="msgul">
+                <li><span>您的姓名：</span><input type="text" name="Name" class="{required:true}" />&nbsp;<font color="red">*</font></li>
+                <li><span>单位名称：</span><input type="text" name="Company" class="{required:true}" />&nbsp;<font color="red">*</font></li>
+
+                <li><span>您的邮箱：</span><input type="text" name="Email" class="{required:true}"/>&nbsp;<font color="red">*</font></li>
+                <li><span>联系电话：</span><input type="text" name="Phone" class="{required:true}"/>&nbsp;<font color="red">*</font></li>
+                <li style=""><span style="display: inline-block; vertical-align: top">留言内容：</span><textarea style="margin: 10px 5px; width: 400px; height: 200px;" class="{maxlength:200}" name="Content"></textarea></li>
+                <span style="margin-left: 100px;"><font color="red">（以上*部分必须填写才可提交成功）</font></span><br /><br />
+                            <center>
+                <input style="width:50px;" type="submit" value="提交" />
+            </center>
+            </ul>
+
+        </form>
+    </div>
+</div>
+
+

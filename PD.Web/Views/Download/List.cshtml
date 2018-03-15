@@ -1,0 +1,71 @@
+﻿@{
+    ViewBag.Title = "资料下载--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+    var info = new PD.Util.PDService("Info", "ID").GetObjects<PD.Model.Info>("");
+    Layout = "~/Views/Shared/Front.cshtml";
+}
+<style>
+    .news {
+        list-style: none;
+        padding: 30px 25px;min-height:400px;
+    }
+
+        .news li {
+            line-height: 30px;
+            width: 100%;
+            height: 30px;
+            border-bottom: 1px dashed #4b4b4b;clear:both;
+        }
+
+            .news li span {
+                font-size: 12px;
+                color: #4b4b4b;
+            }
+
+    p span, p label, p a {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+
+    label {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+</style>
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+<a class="litem">技术支持</a>
+                            <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Support?ID=@info.Where(s => s.Mark == "SHFW").FirstOrDefault().ID">售后服务</a>
+                        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Support?ID=@info.Where(s => s.Mark == "JJWT").FirstOrDefault().ID">解决问题</a>
+                        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Download/List">资料下载</a>
+
+
+</div>
+
+<div class="box" style="width: 804px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><a href="javascript:void(0)">技术支持></a><span href="">资料下载</span></label>
+
+    </div>
+    <ul class="news">@{
+        var i=0;
+        foreach (var p in ViewBag.download as List<PD.Model.Download>)
+        {
+            <li><a style="float:left;" href="/Download/Detail?ID=@p.ID"><span>
+                @(++i).@p.Name</span></a><span style="float: right;display:inline-block">@DateTime.Parse(p.InsertTime.ToString()).ToString("yyyy-MM-dd")</span></li>
+        }
+        }
+    </ul>
+
+    <center>
+        <p>
+            @{
+                var pi = ViewBag.PageInfo as An.Miuskin.Web.Helper.PagingInfo;
+            }
+            @Html.PageLinks(pi, s => "/Download/Detail?pg=" + s.ToString())  <span>&nbsp;共@(pi.TotalPages)页</span><span>&nbsp;@(pi.TotalItems)条记录</span>
+        </p>
+    </center>
+</div>
+
+

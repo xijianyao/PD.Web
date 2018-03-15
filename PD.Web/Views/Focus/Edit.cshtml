@@ -1,0 +1,42 @@
+﻿@model PD.Model.Focus
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="form-box" align="center">
+    <form id="focus-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>描述:&nbsp;</span>
+                    <input name="Desc" class="easyui-validatebox" data-options="required:true" value="@Model.Desc" style="width: 350px"  /></td>
+            </tr> 
+@*            <tr>
+                <td>
+                    <span>编号:&nbsp;</span>
+                    <input name="Sort" class="easyui-validatebox" data-options="required:true" value="@Model.Sort" style="width: 350px"  /></td>
+            </tr> *@
+                        <tr>
+                <td>
+                    <span>地址:&nbsp;</span>
+                    <input name="Href" class="easyui-validatebox" data-options="" value="@Model.Href" style="width: 350px"  /></td>
+            </tr> 
+            <tr>
+                <td>
+
+                <span>上传图片</span>
+                    <a class="easyui-linkbutton" href="javascript:void(0)" onclick="FocusImg()" data-options="plain:true,iconCls:'icon-search'">查看</a>
+                    <input id="focus-img" name="Img" type="hidden" value="@Model.Img" />
+                    <a class="easyui-linkbutton" href="javascript:void(0)" onclick="FocusUpload()" data-options="plain:true,iconCls:'icon-add'">上传</a>
+                @*<span >图片上传后会自动裁剪为合适的尺寸。</span>*@
+                
+                </td>
+            </tr>
+        </table>
+        <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+    </form>
+</div>
+

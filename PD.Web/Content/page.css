@@ -1,0 +1,25 @@
+﻿#layout-north { border-color: #95B8E7; }
+
+#layout-logo { color:#666666; }
+
+.layout-nav li { border-color: #95B8E7; }
+
+.layout-nav li a { color: #666666; }
+
+.layout-nav li a:hover { background-color: #d0e6f6; }
+
+#layout-center { border-color:#95B8E7; }
+
+#layout-bottom { color:#666666; }
+
+/* page */
+
+.form-box input.easyui-validatebox, .form-box input.easyui-numberbox { border-color: #95B8E7; }
+.form-box textarea.easyui-validatebox { border-color: #95B8E7; }
+
+.model-table { color: #666666; }
+.model-table th { border-color: #95B8E7; }
+.model-table td { border-color: #95B8E7; }
+
+.list-textbutton:link, .list-textbutton:visited, .list-textbutton:active { color: #000000; }
+.list-textbutton:hover { color: #ffa500; }

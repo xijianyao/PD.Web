@@ -1,0 +1,94 @@
+﻿@model PD.Model.Info
+@{
+    ViewBag.Title = Model.Name + "--" + (ViewContext.ViewData["set"] as List<PD.Model.Setting>).Where(s => s.Mark == "SiteName").FirstOrDefault().Content;
+
+    Layout = "~/Views/Shared/Front.cshtml";
+
+    var info = new PD.Util.PDService("Info", "ID").GetObjects<PD.Model.Info>("");
+            
+}
+<style>
+    .product {
+        list-style: none;
+        padding: 0px 25px;
+    }
+
+        .product li {
+            float: left;
+            margin: 10px 20px;
+            line-height: 40px;
+            width: 155px;
+            height: 137px;
+            background-color: #4cff00;
+        }
+
+    .litem {
+        display: block;
+        height: 32px;
+        width: 100%;
+        color: white;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        line-height: 32px;
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/lItem_03.jpg') repeat-x;
+    }
+
+    .litem_s {
+        display: block;
+        height: 35px;
+        width: 100%;
+        color: #005FAF;
+        line-height: 35px;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/litem_select_05.jpg') repeat-x;
+    }
+
+    #contact label, .pinfo li label {
+        font-size: 12px;
+        color: #4b4b4b;
+    }
+</style>
+<img style="margin-top:10px;margin-bottom:-10px;width:100%" src="/images/product_bg.jpg" />
+
+<div class="box" style="width: 320px; height: auto; margin-right: 15px">
+    <a class="litem">关于我们</a>
+    @{
+        
+        if (info.Where(s => s.Mark == "Intro").Any())
+        {
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "Intro").FirstOrDefault().ID">公司简介</a>
+        } if (info.Where(s => s.Mark == "QYWH").Any())
+        {
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "QYWH").FirstOrDefault().ID">企业文化</a>
+        } if (info.Where(s => s.Mark == "GSZZ").Any())
+        {
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "GSZZ").FirstOrDefault().ID">公司资质</a>
+        } if (info.Where(s => s.Mark == "JYLY").Any())
+        {
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "JYLY").FirstOrDefault().ID">经营领域</a>
+        } if (info.Where(s => s.Mark == "ZZJG").Any())
+        {
+      
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "ZZJG").FirstOrDefault().ID">组织机构</a>
+        } if (info.Where(s => s.Mark == "XSWL").Any())
+        {
+        <a class="litem_s" style="background-image: url('/Images/litem_no_06.jpg')" href="/Info/Detail?ID=@info.Where(s => s.Mark == "XSWL").FirstOrDefault().ID">销售网络</a>
+        }}
+</div>
+
+<div class="box" style="width: 803px; min-height: 575px; float: right;">
+
+    <div class="boxhead">
+        <label class="posi">您的当前位置：<a href="/Home/Index">首页></a><a href="javascript:void(0)">关于普迪></a><span href="">@Model.Name</span></label>
+    </div>
+    <div style="padding: 20px;">
+        @Html.Raw(Model.Content)
+    </div>
+</div>
+
+

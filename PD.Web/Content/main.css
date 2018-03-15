@@ -1,0 +1,134 @@
+﻿blockquote, body, button, dd, dl, dt, fieldset, form, h1, h2, h3, h4, h5, h6, hr, input, legend, li, ol, p, pre, td, textarea, th, ul {
+    margin: 0;
+    padding: 0;
+}
+a:focus{  
+   outline:0;   
+}
+.content {
+    width: 1143px;
+    height: auto;
+    margin: 0 auto;
+}
+img {
+border:none;}
+a {
+text-decoration:none;}
+ul {
+list-style:none;}
+.logo {
+    width: 1143px;
+    height: 105px;
+    background: url('/images/log.png') no-repeat;
+}
+
+.nav {
+    width: 1143px;
+    /*height: 60px;*/
+    background: #075ab0;
+}
+
+.bottom {
+    width: 1143px;
+    height: 145px;
+    background: url('/images/bottom_bg.jpg') repeat-x;
+    margin-top: 15px;
+}
+
+.box {
+    border: 1px solid #b5d3f4;
+    float: left;
+    margin-top: 15px;
+    overflow: hidden;
+}
+
+.clear {
+    clear: both;
+}
+
+.posi {
+    color: #a9a9a9;
+    margin-left: 28px;
+    font-family: 'Microsoft YaHei';
+    font-size: 14px;
+}
+.posi a{
+    color: #a9a9a9;
+    font-family: 'Microsoft YaHei';
+    font-size: 14px;
+}
+
+.posi a:hover{
+    color: blue;
+    font-family: 'Microsoft YaHei';
+    font-size: 14px;
+}
+
+    .litem {
+        display: block;
+        height: 32px;
+        width: 100%;
+        color: white;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        line-height: 32px;
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/lItem_03.jpg') repeat-x;
+    }
+
+    .litem_s {
+        display: block;
+        height: 35px;
+        width: 100%;
+        color: #005FAF;
+        line-height: 35px;
+        font-size: 15px;
+        font-family: 'Microsoft YaHei';
+        font-weight: bold;
+        text-align: center;
+        background: url('/Images/litem_select_05.jpg') repeat-x;
+    }
+
+            .focus {
+            margin-top: 10px;
+            width: 1143px;
+            height: 400px;
+        }
+
+        .box {
+            border: 1px solid #b5d3f4;
+            float: left;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .clear {
+            clear: both;
+        }
+
+        .boxhead {
+            width: 100%;
+            margin: 0 auto;
+            height: 37px;
+            line-height: 37px;
+            /*border-top: 1px solid #b5d3f4;*/
+            border-bottom: 1px solid #b5d3f4;
+            background: url('/images/boxhead.jpg') repeat-x bottom;
+        }
+
+        .cat {
+            margin-left: 28px;
+            font-family: 'Microsoft YaHei';
+            font-size: 14px;
+            color: #075ab0;
+            font-weight: bold;float:left;
+        }
+
+        .more {
+            margin-right: 28px;
+            font-family: 'Microsoft YaHei';
+            font-size: 14px;
+            color: #075ab0;
+            float: right;
+        }

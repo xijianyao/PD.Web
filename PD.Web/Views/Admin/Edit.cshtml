@@ -1,0 +1,29 @@
+﻿@model PD.Model.User
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = null;
+}
+
+<div class="form-box" align="center">
+    <form id="user-model" method="post">
+        <table class="model-table" style="margin-top: 10px;">
+
+            <tr>
+                <td>
+                    <span>用户名:&nbsp;</span>
+                    <label >@Model.UserName</label></td>
+            </tr> 
+
+                                    <tr>
+                <td>
+                    <span>姓名:&nbsp;</span>
+                    <input name="Name" class="easyui-validatebox" data-options="" value="@Model.Name" style="width: 350px"  /></td>
+            </tr> 
+
+        </table>
+
+        <input name="ID" id="newid" type="hidden" value="@Model.ID" />
+    </form>
+</div>
+
