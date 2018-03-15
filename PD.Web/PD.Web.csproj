@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -139,6 +140,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\LinkController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
     <Compile Include="Controllers\CategoryController.cs" />
@@ -617,6 +619,17 @@
     <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="css\base2.min.css" />
+    <Content Include="css\colorpicker.min.css" />
+    <Content Include="css\edit.min.css" />
+    <Content Include="css\fkeditor.min.css" />
+    <Content Include="css\fkTheme.min.css" />
+    <Content Include="css\fontsIco.min.css" />
+    <Content Include="css\jzcusstyle.css" />
+    <Content Include="css\moduleAnimation.min.css" />
+    <Content Include="css\newSearchBoxStyle.min.css" />
+    <Content Include="css\poshytipAndmCustomScrollbar.min.css" />
+    <Content Include="css\vcomponents.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Images\bottom_bg.jpg" />
@@ -641,7 +654,13 @@
     <Content Include="Images\product_bg.jpg" />
     <Content Include="Images\soft.jpg" />
     <Content Include="Images\suspend.png" />
-    <Content Include="index.html" />
+    <Content Include="js\2052.min.js" />
+    <Content Include="js\fai.min.js" />
+    <Content Include="js\jquery-core.min.js" />
+    <Content Include="js\jquery-mousewheel.min.js" />
+    <Content Include="js\jquery-ui-core.min.js" />
+    <Content Include="js\jzUtils.min.js" />
+    <Content Include="js\site.min.js" />
     <Content Include="product.html" />
     <Content Include="Content\easyui\themes\black\.svn\all-wcprops" />
     <Content Include="Content\easyui\themes\black\.svn\entries" />
@@ -1999,6 +2018,7 @@
     <Content Include="Views\Info\Job.cshtml" />
     <Content Include="Views\Category\Edit.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
+    <Content Include="Views\Index\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
